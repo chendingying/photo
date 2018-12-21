@@ -3,7 +3,6 @@ package com.photo.warehouse.controller.photo;
 import com.photo.warehouse.biz.backstage.BaseLogBiz;
 import com.photo.warehouse.biz.photo.DownloadFormBiz;
 import com.photo.warehouse.biz.photo.PicAttribBiz;
-import com.photo.warehouse.conf.MyLog;
 import com.photo.warehouse.model.backstage.BaseLog;
 import com.photo.warehouse.model.photo.DownloadForm;
 import com.photo.warehouse.model.photo.PicAttrib;
@@ -164,7 +163,6 @@ public class DownloadFormController  {
      * @param response
      * @throws IOException
      */
-    @MyLog(value = "图片下载")  //这里添加了AOP的自定义注解
     @RequestMapping(value = "/downloadPic/{vcGroupid}",method = RequestMethod.GET)
     public void downloadPicList(@PathVariable("vcGroupid") String gId, HttpServletRequest request,
                             HttpServletResponse response) throws IOException {

@@ -21,6 +21,7 @@ import java.util.UUID;
 @Component
 @PropertySource({"classpath:connection.properties"})
 public class Upload {
+
     //获取存储的物理路径
     @Value("${hddUpath}")
     private  String hddUpath;
@@ -31,21 +32,38 @@ public class Upload {
     @Autowired
     private PicAttribBiz picAttribBiz;
 
+    /**
+     * 上传文件
+     * @param multipartFile
+     * @param picAttrib
+     * @param main
+     * @return
+     * @throws IOException
+     */
     public  String uploadFile(MultipartFile multipartFile,PicAttrib picAttrib,int main) throws IOException {
 
+        //以时间戳作为pid
         Random rnd = new Random();
         String pid = String.valueOf(System.currentTimeMillis() + rnd.nextInt(1000));
+        picAttrib.setVcPid(pid);
+
         //获取文件后缀名
         String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
-        //映射物理路径
 
-        File directory = new File("");// 参数为空
+        // 参数为空
+        File directory = new File("");
         //工程的根目录
         String courseFile = directory.getCanonicalPath();
 
-        String file = courseFile + "\\" + hddUpath + "\\" + pid + suffix;
-        String rfile =courseFile + "\\" + hddTpath + "\\" + pid + ".jpg";
+        //原图url
+        String filerl = courseFile + "\\" + hddUpath + "\\" + pid + suffix;
+        //缩略图url
+        String rfileUrl =courseFile + "\\" + hddTpath + "\\" + pid + ".jpg";
+
+        //将文件转化为二进制
         byte[] bytes = multipartFile.getBytes();
+
+        //判断是否有文件夹，若没有则自动创建
         File updirFile = new File(hddUpath);
         File tpdirFile = new File(hddTpath);
         if(!updirFile.exists()){
@@ -53,15 +71,19 @@ public class Upload {
         }if(!tpdirFile.exists()){
             tpdirFile.mkdirs();
         }
-        FileOutputStream out = new FileOutputStream(file);
+
+        //写入原图文件和缩略图文件
+        FileOutputStream out = new FileOutputStream(filerl);
         out.write(bytes);
         out.flush();
         out.close();
-        FileOutputStream out1 = new FileOutputStream(rfile);
+        FileOutputStream out1 = new FileOutputStream(rfileUrl);
         out1.write(bytes);
         out1.flush();
         out1.close();
-        picAttrib.setVcPid(pid);
+
+        //填充数据
+        //原图后缀
         picAttrib.setVcFormat(suffix.replace(".",""));
         picAttrib.setVcUpload(pid + suffix);
         picAttrib.setVcThumb(pid + ".jpg");
@@ -73,13 +95,5 @@ public class Upload {
         picAttrib.setDtStamp(new Date());
         picAttribBiz.insertSelective(picAttrib);
         return pid;
-    }
-
-    public Boolean checkPicId(String picId){
-        PicAttrib pa = picAttribBiz.selectByVcPid(picId);
-        if(pa != null)
-            return true;
-        else
-            return false;
     }
 }

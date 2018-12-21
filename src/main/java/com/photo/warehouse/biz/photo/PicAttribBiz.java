@@ -2,6 +2,7 @@ package com.photo.warehouse.biz.photo;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.photo.warehouse.constants.CommonConstants;
 import com.photo.warehouse.mapper.photo.PicAttribMapper;
 import com.photo.warehouse.model.photo.PicAttrib;
 import com.photo.warehouse.util.BaseBiz;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 图片管理（Service）
  * Created by CDZ on 2018/12/8.
  */
 @Service
@@ -37,18 +39,24 @@ import java.util.Map;
 @Transactional(rollbackFor = Exception.class)
 public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
 
-
-//    public TableResultResponse<PicAttrib> getAllPicAttrib(String type){
-//
-//    }
     public void updatePicById(PicAttrib picAttrib){
         mapper.updatePicById(picAttrib);
     }
 
+    /**
+     * 首页图片明细
+     * @param vcGroupid
+     * @return
+     */
     public List<PicAttrib> getPicAttribByGid(String vcGroupid){
         return mapper.getPicAttribByGid(vcGroupid);
     }
 
+    /**
+     * 图片置顶
+     * @param picAttrib
+     * @throws ParseException
+     */
     public void updateStick(PicAttrib picAttrib) throws ParseException {
         List<PicAttrib> picAttribList = mapper.getPicAttribByGid(picAttrib.getVcGroupid());
         for(PicAttrib pic : picAttribList){
@@ -117,12 +125,20 @@ public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
         return mapper.selectTopPicAttrib(picAttrib);
     }
 
+    /**
+     *审核图片管理分页查询
+     * @param query
+     * @param response
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public TableResultResponse<PicAttrib> PlicDuditlist(Query query, HttpServletResponse response) throws IOException, ParseException {
         Class<PicAttrib> clazz = (Class<PicAttrib>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         Example example = new Example(clazz);
-        example.setOrderByClause("dt_stamp DESC");
+        example.setOrderByClause(CommonConstants.DUDIT_SETORDERBYCLAUSE);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andLike("cMain","1");
+        criteria.andLike("cMain",CommonConstants.CMAIN);
         if(query.entrySet().size()>0) {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
@@ -132,13 +148,22 @@ public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
         List<PicAttrib> list = mapper.selectByExample(example);
         return new TableResultResponse<PicAttrib>(result.getTotal(), list);
     }
+
+    /**
+     * 首页分页查询
+     * @param query
+     * @param response
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public TableResultResponse<PicAttrib> selectByQuery(Query query, HttpServletResponse response) throws IOException, ParseException {
         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-       Class<PicAttrib> clazz = (Class<PicAttrib>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        Class<PicAttrib> clazz = (Class<PicAttrib>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         Example example = new Example(clazz);
-        example.setOrderByClause("pic_stick_create_time DESC,dt_stamp DESC");
+        example.setOrderByClause(CommonConstants.PICATTRIB_SETORDERBYCLAUSE);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andLike("cMain","1");
+        criteria.andLike("cMain", CommonConstants.CMAIN);
         if(query.entrySet().size()>0) {
             Date dtPostimeBegin = null;
             Date dtPostimeEnd = null;
@@ -171,14 +196,6 @@ public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
         }
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         List<PicAttrib> list = mapper.selectByExample(example);
-//        for(PicAttrib picAttrib : list){
-//            picAttrib.setVcUpload("");
-//            picAttrib.setVcThumb("");
-//           if(picAttrib.getPicStickEndTime() != null && picAttrib.getPicStickEndTime().getTime()< new Date().getTime()){
-//               picAttrib.setPicStick(0);
-//               mapper.updateStick(picAttrib);
-//           }
-//        }
         return new TableResultResponse<PicAttrib>(result.getTotal(), list);
     }
 

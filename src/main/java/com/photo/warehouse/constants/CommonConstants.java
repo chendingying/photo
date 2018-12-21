@@ -36,4 +36,16 @@ public class CommonConstants {
 
     public static final int TOKEN_ERROR_CODE = 40101;
     public static final int TOKEN_FORBIDDEN_CODE = 40301;
+
+
+    //图片管理begin
+    public static final String CMAIN="1";
+    public static final String PICATTRIB_SETORDERBYCLAUSE="pic_stick_create_time DESC,dt_stamp DESC";
+    //图片管理end
+
+    //审核图片管理begin
+    public static final String DUDIT_SETORDERBYCLAUSE="dt_stamp DESC";
+    //审核图片管理end
+
+
 }

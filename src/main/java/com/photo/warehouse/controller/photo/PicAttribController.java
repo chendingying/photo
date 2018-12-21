@@ -2,14 +2,12 @@ package com.photo.warehouse.controller.photo;
 
 import com.photo.warehouse.biz.backstage.OptionsLibBiz;
 import com.photo.warehouse.biz.photo.*;
-import com.photo.warehouse.conf.MyLog;
 import com.photo.warehouse.controller.base.PicAttribBaseController;
+import com.photo.warehouse.log.ReturnCode;
+import com.photo.warehouse.log.SystemControllerLog;
 import com.photo.warehouse.model.backstage.OptionsLib;
 import com.photo.warehouse.model.photo.*;
-import com.photo.warehouse.util.BaseController;
-import com.photo.warehouse.util.ObjectRestResponse;
-import com.photo.warehouse.util.Query;
-import com.photo.warehouse.util.TableResultResponse;
+import com.photo.warehouse.util.*;
 import com.photo.warehouse.vo.Upload;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
@@ -30,12 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
+ * 图片管理（Controller）
  * Created by CDZ on 2018/12/8.
  */
 @Component
@@ -52,6 +48,7 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
 
     @Autowired
     PicInfoBiz picInfoBiz;
+
     @Autowired
     Upload upload;
 
@@ -61,44 +58,108 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
     @Autowired
     OptionsLibBiz optionsLibBiz;
 
+    //原图路径
     @Value("${hddUpath}")
     private  String hddUpath;
 
+    //缩略图路径
     @Value("${hddTpath}")
     private String hddTpath;
 
-
-
-    //带参数查询
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    @ResponseBody
+    /**
+     * 设置图片置顶操作
+     * @param stick
+     * @param picStickTime
+     * @param picAttrib
+     * @return
+     * @throws ParseException
+     */
     @Transactional
-    public ObjectRestResponse<PicAttrib> get(@RequestParam Map<String, Object> params){
+    @SystemControllerLog(descrption = "图片管理")
+    @RequestMapping(value = "/updateStick/{stick}/{picStickTime}",method = RequestMethod.PUT)
+    public ObjectRestResponse updateStick(@PathVariable("stick") Integer stick, @PathVariable("picStickTime")Integer picStickTime, @RequestBody List<PicAttrib> picAttrib) throws ParseException {
+
         ObjectRestResponse<PicAttrib> entityObjectRestResponse = new ObjectRestResponse<>();
-        if(params.get("vcPid") != null && !params.get("vcPid").equals("")){
-            PicAttrib picAttrib = baseBiz.selectByVcPid(params.get("vcPid").toString());
-            picAttrib.setVcThumb("");
-            picAttrib.setVcUpload("");
-            List<PicAttrib> picAttribs = baseBiz.getPicAttribByGid(picAttrib.getVcGroupid());
-            picAttrib.setPidList(picAttribs);
-            if(picAttrib == null){
-                return null;
-            }
-            entityObjectRestResponse.data((PicAttrib)picAttrib);
-            ClickResultset clickResultset = new ClickResultset();
-            clickResultset.setVcPid(picAttrib.getVcPid());
-            clickResultset.setVcName(picAttrib.getVcName());
-            clickResultset.setVcAuthor(picAttrib.getVcAuthor());
-            clickResultset.setVcKeyword(picAttrib.getVcKeyword());
-            clickResultset.setVcPhotime(picAttrib.getVcPhotime());
-            //添加点击次数
-            clickResultsetBiz.insert(clickResultset);
+
+       //存储操作的Id
+        List<String> stringId = new ArrayList<>();
+        for(PicAttrib picId : picAttrib){
+            stringId.add(picId.getVcPid());
         }
+
+        //判断操作
+        if(stick != null && stick == 1){
+            entityObjectRestResponse.setActionType("设置置顶");
+        }else if(stick != null && stick == 0){
+            entityObjectRestResponse.setActionType("取消置顶");
+        }else{
+            entityObjectRestResponse.setActionType("异常处理");
+        }
+
+        try{
+            //循环修改
+            for(PicAttrib pic : picAttrib){
+                pic.setPicStickTime(picStickTime);
+                pic.setPicStick(stick);
+                baseBiz.updateStick(pic);
+            }
+            entityObjectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
+            entityObjectRestResponse.setMessage("设置成功");
+        }catch (Exception e){
+            entityObjectRestResponse.setResultCode(ReturnCode.RES_FAILED);
+            entityObjectRestResponse.setMessage("设置失败");
+            entityObjectRestResponse.setException(ExceptionUtil.getStackTrace(e));
+        }
+        entityObjectRestResponse.setStringList(stringId);
+
         return entityObjectRestResponse;
     }
 
     /**
-     * 首页分页查看
+     * 图片明细(点击率暂时注释掉)
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "",method = RequestMethod.GET)
+    @ResponseBody
+    @Transactional
+    public ObjectRestResponse<PicAttrib> get(@RequestParam Map<String, Object> params){
+
+        ObjectRestResponse<PicAttrib> entityObjectRestResponse = new ObjectRestResponse<>();
+
+        //判断id是否为空
+        if(params.get("vcPid") != null && !params.get("vcPid").equals("")){
+            PicAttrib picAttrib = baseBiz.selectByVcPid(params.get("vcPid").toString());
+            //初始化原图
+            picAttrib.setVcThumb("");
+            //初始化缩略图
+            picAttrib.setVcUpload("");
+
+            //查询组下所有的图片
+            List<PicAttrib> groupPicAttribList = baseBiz.getPicAttribByGid(picAttrib.getVcGroupid());
+            picAttrib.setPidList(groupPicAttribList);
+
+            if(picAttrib == null){
+                entityObjectRestResponse.setMessage("查无数据");
+                return entityObjectRestResponse;
+            }
+            entityObjectRestResponse.data((PicAttrib)picAttrib);
+//           暂时注释，待确认（点击次数）
+//            ClickResultset clickResultset = new ClickResultset();
+//            clickResultset.setVcPid(picAttrib.getVcPid());
+//            clickResultset.setVcName(picAttrib.getVcName());
+//            clickResultset.setVcAuthor(picAttrib.getVcAuthor());
+//            clickResultset.setVcKeyword(picAttrib.getVcKeyword());
+//            clickResultset.setVcPhotime(picAttrib.getVcPhotime());
+//            //添加点击次数
+//            clickResultsetBiz.insert(clickResultset);
+        }
+
+        return entityObjectRestResponse;
+    }
+
+    /**
+     * 首页分页查询
      * @param params
      * @param response
      * @return
@@ -113,11 +174,8 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         return baseBiz.selectByQuery(query,response);
     }
 
-    public void selectForPicStickEndTime(){
-        baseBiz.selectForPicStickEndTime();
-    }
     /**
-     * 审核图片分页查看
+     * 审核图片管理分页查看
      * @param params
      * @param response
      * @return
@@ -132,69 +190,43 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         return baseBiz.PlicDuditlist(query,response);
     }
 
-    // 添加图片
-    @MyLog(value = "添加图片")  //这里添加了AOP的自定义注解
+    /**
+     * 我要上传->上传图片
+     * 多文件以及带参数上传
+     * @param file
+     * @param StringBicAttrib
+     * @throws IOException
+     */
+    @Transactional
     @RequestMapping(value = "/upLoadImg",method = RequestMethod.POST)
     public void upLoadImg(@RequestParam("file") List<MultipartFile> file,@RequestParam("picAttrib") String StringBicAttrib) throws IOException {
+
         //将字符串转json格式
         JSONObject jsStr = JSONObject.fromObject(StringBicAttrib);
+        //Json转对象
         PicAttrib picAttrib = (PicAttrib) JSONObject.toBean(jsStr,PicAttrib.class);
 
-
-//        if(picAttrib.getVcTogae() != null && !picAttrib.getVcTogae().equals("")){
-//            List<OptionsLib> optionsLibs = optionsLibBiz.selectByvcDescribe(picAttrib.getVcTogae(),"3");
-//            if(optionsLibs.size()>0){
-//                OptionsLib optionsLib = new OptionsLib();
-//                optionsLib.setcOpti("3");
-//                optionsLib.setVcDescribe(picAttrib.getVcTogae());
-//                optionsLibBiz.insert(optionsLib);
-//            }
-//        } if(picAttrib.getVcKind() != null && !picAttrib.getVcKind().equals("")){
-//            List<OptionsLib> optionsLibs = optionsLibBiz.selectByvcDescribe(picAttrib.getVcKind(),"1");
-//            if(optionsLibs.size()>0){
-//                OptionsLib optionsLib = new OptionsLib();
-//                optionsLib.setcOpti("1");
-//                optionsLib.setVcDescribe(picAttrib.getVcKind());
-//                optionsLibBiz.insert(optionsLib);
-//            }
-//        } if(picAttrib.getVcPhoposi() != null && !picAttrib.getVcPhoposi().equals("")){
-//            List<OptionsLib> optionsLibs = optionsLibBiz.selectByvcDescribe(picAttrib.getVcPhoposi(),"1");
-//            if(optionsLibs.size()>0){
-//                OptionsLib optionsLib = new OptionsLib();
-//                optionsLib.setcOpti("2");
-//                optionsLib.setVcDescribe(picAttrib.getVcPhoposi());
-//                optionsLibBiz.insert(optionsLib);
-//            }
-//        }
-
+        //获取时间戳，用来做组Id
         String gid = String.valueOf(System.currentTimeMillis());
         picAttrib.setVcGroupid(gid);
-        Integer group = file.size();
+
+        //循环上传图片
         for(int i = 0;i<file.size();i++){
-            if(group >1){
+            if(file.size() >1){
                 ;picAttrib.setcGroup("1");
             }else{
                 picAttrib.setcGroup("0");
             }
+            //第一张作为默认图
             if(i == 0){
                 upload.uploadFile(file.get(i),picAttrib,1);
             }else{
                 upload.uploadFile(file.get(i),picAttrib,0);
             }
-
         }
     }
 
-    //设置图片置顶
-    @RequestMapping(value = "/updateStick/{stick}/{picStickTime}",method = RequestMethod.PUT)
-    public void updateStick(@PathVariable("stick") Integer stick,@PathVariable("picStickTime")Integer picStickTime, @RequestBody List<PicAttrib> picAttrib) throws ParseException {
-        for(PicAttrib pic : picAttrib){
-            pic.setPicStickTime(picStickTime);
-            pic.setPicStick(stick);
-            baseBiz.updateStick(pic);
-        }
 
-    }
 
 
     /**
