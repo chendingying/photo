@@ -199,7 +199,9 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
      */
     @Transactional
     @RequestMapping(value = "/upLoadImg",method = RequestMethod.POST)
-    public void upLoadImg(@RequestParam("file") List<MultipartFile> file,@RequestParam("picAttrib") String StringBicAttrib) throws IOException {
+    public ObjectRestResponse upLoadImg(@RequestParam("file") List<MultipartFile> file,@RequestParam("picAttrib") String StringBicAttrib) throws IOException {
+
+        ObjectRestResponse entityObjectRestResponse = new ObjectRestResponse<>();
 
         //将字符串转json格式
         JSONObject jsStr = JSONObject.fromObject(StringBicAttrib);
@@ -224,6 +226,7 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
                 upload.uploadFile(file.get(i),picAttrib,0);
             }
         }
+        return entityObjectRestResponse;
     }
 
 

@@ -38,6 +38,8 @@ public class PicCommentBiz extends BaseBiz<PicCommentMapper,PicComment> {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 if (entry.getValue().equals("")) {
                     continue;
+                }if(entry.getKey().equals("span")){
+                    continue;
                 }
                 criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
             }
