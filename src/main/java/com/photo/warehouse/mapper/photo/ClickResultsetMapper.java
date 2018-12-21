@@ -1,0 +1,13 @@
+package com.photo.warehouse.mapper.photo;
+
+import com.photo.warehouse.model.photo.ClickResultset;
+import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+
+/**
+ * Created by CDZ on 2018/12/8.
+ */
+public interface ClickResultsetMapper  extends Mapper<ClickResultset> {
+    ClickResultset selectClickResultsetByPid(@Param("vcPid") String vcPid);
+    void updateClickResult(@Param("clickResultset") ClickResultset clickResultset);
+}

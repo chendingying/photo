@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="photo-warehouse:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="HGPhoto.war">
+      <element id="artifact" artifact-name="photo-warehouse:war exploded" />
+    </root>
+  </artifact>
+</component>

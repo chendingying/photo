@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.photo.PicAttribMapper">
+    <resultMap id="BaseResultMap" type="com.photo.warehouse.model.photo.PicAttrib">
+        <id column="vc_pid" property="vcPid"/>
+        <id column="vc_upload" property="vcUpload"/>
+        <id column="vc_thumb" property="vcThumb"/>
+        <id column="vc_name" property="vcName"/>
+        <id column="c_type" property="cType"/>
+        <id column="c_status" property="cStatus"/>
+        <id column="vc_reason" property="vcReason"/>
+        <id column="vc_author" property="vcAuthor"/>
+        <id column="vc_phoposi" property="vcPhoposi"/>
+        <id column="vc_dept" property="vcDept"/>
+        <id column="vc_post" property="vcPost"/>
+        <id column="vc_size" property="vcSize"/>
+        <id column="vc_bytes" property="vcBytes"/>
+        <id column="vc_keyword" property="vcKeyword"/>
+        <id column="dt_postime" property="dtPostime"/>
+        <id column="vc_phopos" property="vcPhopos"/>
+        <id column="vc_photime" property="vcPhotime"/>
+        <id column="vc_creator" property="vcCreator"/>
+        <id column="vc_togae" property="vcTogae"/>
+        <id column="vc_kind" property="vcKind"/>
+        <id column="vc_camera" property="vcCamera"/>
+        <id column="vc_glass" property="vcGlass"/>
+        <id column="vc_format" property="vcFormat"/>
+        <id column="vc_memo" property="vcMemo"/>
+        <id column="dt_stamp" property="dtStamp"/>
+        <id column="vc_seqno" property="vcSeqno"/>
+        <id column="i_click" property="iClick"/>
+        <id column="c_isbackup" property="cIsbackup"/>
+        <id column="c_group" property="cGroup"/>
+        <id column="c_main" property="cMain"/>
+        <id column="vc_groupid" property="vcGroupid"/>
+        <result column="pic_stick" property="picStick"/>
+
+    </resultMap>
+
+    <!-- 查询单个对象-->
+    <select id="selectByVcPid" resultMap="BaseResultMap">
+        select *   from pic_attrib  where  vc_pid =#{vcPid}
+    </select>
+
+    <!-- 获取特定编号组图 -->
+    <select id="getPicAttribByGid" resultMap="BaseResultMap">
+        select * from pic_attrib where vc_groupid=#{vcGroupid}  ORDER BY c_main DESC
+    </select>
+
+    <delete id="deletePicAttribByGid">
+        delete from pic_attrib where vc_groupid = #{picAttrib.vcGroupid}
+    </delete>
+    <!--修改状态 -->
+    <update id="updatePicById">
+        update pic_attrib set c_status = #{picAttrib.cStatus} where vc_pid = #{picAttrib.vcPid}
+    </update>
+
+    <!--设置图片置顶 -->
+    <update id="updateStick">
+        update pic_attrib  set pic_stick = #{picAttrib.picStick} ,pic_stick_create_time = #{picAttrib.picStickCreateTime},pic_stick_time = #{picAttrib.picStickTime},pic_stick_end_time = #{picAttrib.picStickEndTime} where vc_pid = #{picAttrib.vcPid}
+    </update>
+
+    <!-- 新查询出最早上传的一张图片-->
+    <select id="selectTopPicAttrib" resultMap="BaseResultMap">
+        select TOP(1) * from pic_attrib where c_group =1 and vc_groupid = #{picAttrib.vcGroupid} ORDER BY dt_postime
+    </select>
+
+    <!-- 下一组图 -->
+    <select id="downCluster" resultMap="BaseResultMap">
+        <![CDATA[
+        with bb as
+        (
+        select ROW_NUMBER() over(ORDER BY pic_stick_create_time DESC,dt_stamp DESC) sort, * from pic_attrib where 1=1
+        )
+        select top 1 * from bb
+        where bb.sort>(select bb.sort from bb where vc_pid = #{vcPid} ) and  c_main = '1' and c_status = '1'
+        ORDER BY bb.sort
+        ]]>
+    </select>
+
+    <!-- 上一组图 -->
+    <select id="nextCluster" resultMap="BaseResultMap">
+        <![CDATA[
+        with aa as
+        (
+        select ROW_NUMBER() over(ORDER BY pic_stick_create_time DESC,dt_stamp DESC) sort, * from pic_attrib where 1=1
+        )
+        select top 1 * from aa
+        where aa.sort<(select aa.sort from aa where vc_pid = #{vcPid} ) and c_main = '1'  and c_status = '1'
+        ORDER BY aa.sort desc
+         ]]>
+    </select>
+
+    <select id="selectForPicStickEndTime" resultMap="BaseResultMap">
+        select * from pic_attrib where (SELECT CONVERT(DATETIME,GETDATE())) > pic_stick_end_time and pic_stick_end_time is not null
+    </select>
+</mapper>

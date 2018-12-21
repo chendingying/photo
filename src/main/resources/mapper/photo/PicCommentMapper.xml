@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.photo.PicCommentMapper">
+    <resultMap id="BaseResultMap" type="com.photo.warehouse.model.photo.PicComment">
+        <result column="vc_pid" property="vcPid"/>
+        <result column="vc_uid" property="vcUid"/>
+        <result column="dt_commtime" property="dtCommtime"/>
+        <result column="vc_ip" property="vcIp"/>
+        <result column="vc_comment" property="vcComment"/>
+        <result column="vc_replyid" property="vcReplyid"/>
+        <result column="i_blank" property="iBlank"/>
+        <result column="pic_stick" property="picStick"/>
+    </resultMap>
+
+    <select id="selectCommontAll" resultMap="BaseResultMap">
+        select * from pic_comment
+        WHERE i_blank = 0
+    </select>
+
+    <select id="selectCommontByPid" resultMap="BaseResultMap">
+        select * from pic_comment
+        where vc_pid = #{vcPid}
+    </select>
+    <update id="updateiBlankByUid">
+         update pic_comment set i_blank = #{status} where vc_uid = #{uid}
+    </update>
+
+    <update id="updateIBlankByUidAndPidAndCommont">
+        UPDATE pic_comment set i_blank = #{picComment.iBlank} where vc_uid = #{picComment.vcUid} and vc_pid = #{picComment.vcPid}  and vc_comment =#{picComment.vcComment} and vc_ip= #{picComment.vcIp}
+    </update>
+    
+    <update id="updatePicStick">
+       update pic_comment set pic_stick = #{picComment.picStick} ,pic_stick_create_time = #{picComment.picStickCreateTime},pic_stick_time = #{picComment.picStickTime} where vc_pid = #{picComment.vcPid} and vc_uid = #{picComment.vcUid}  and vc_comment = #{picComment.vcComment}
+    </update>
+
+    <delete id="deletePicComment">
+        delete from pic_comment  where vc_pid = #{picComment.vcPid}
+        <if test="picComment.vcUid !=null">
+            and vc_uid = #{picComment.vcUid}
+        </if>
+        <if test="picComment.vcComment !=null">
+            and vc_comment = #{picComment.vcComment}
+        </if>
+
+    </delete>
+</mapper>

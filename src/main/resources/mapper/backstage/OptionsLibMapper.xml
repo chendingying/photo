@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.backstage.OptionsLibMapper">
+    <resultMap id="BaseResultMap" type="com.photo.warehouse.model.backstage.OptionsLib">
+        <result column="c_opti" property="cOpti"/>
+        <result column="vc_describe" property="vcDescribe"/>
+        <result column="i_blank" property="iBlank"/>
+    </resultMap>
+    <select id="selectByvcDescribe" resultMap="BaseResultMap">
+        select * from options_lib where 1=1
+        <if test="vcDescribe !=null">
+           AND vc_describe = #{vcDescribe}
+        </if>
+        <if test="cOpti !=null">
+            AND c_opti = #{cOpti}
+        </if>
+
+    </select>
+
+    <update id="updateByIBlank">
+            update options_lib set i_blank = #{optionsLib.iBlank} where vc_describe = #{optionsLib.vcDescribe} and c_opti = #{optionsLib.cOpti}
+    </update>
+    <delete id="deleteOptionsLib">
+            delete from options_lib where vc_describe = #{optionsLib.vcDescribe} and c_opti = #{optionsLib.cOpti}
+    </delete>
+</mapper>

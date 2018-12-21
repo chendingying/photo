@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.photo.PicInfoMapper">
+    <resultMap id="BaseResultMap" type="com.photo.warehouse.model.photo.PicInfo">
+        <id column="vc_pid" property="vcPid"/>
+        <id column="vc_uid" property="vcUid"/>
+        <id column="c_kind" property="cKind"/>
+        <id column="dt_stamp" property="dtStamp"/>
+    </resultMap>
+
+    <!-- 下一组图 -->
+    <select id="downCluster" resultMap="BaseResultMap">
+        <![CDATA[
+        with bb as
+        (
+        select ROW_NUMBER() over(ORDER BY dt_stamp DESC) sort, * from pic_info where 1=1
+        )
+        select top 1 * from bb
+        where bb.sort>(select bb.sort from bb where vc_pid =  #{vcPid} and c_kind = 0 and vc_uid =1 )
+        ORDER BY bb.sort
+
+        ]]>
+    </select>
+
+    <!-- 上一组图 -->
+    <select id="nextCluster" resultMap="BaseResultMap">
+        <![CDATA[
+       	 with aa as
+        (
+        select ROW_NUMBER() over(ORDER BY dt_stamp DESC) sort, * from pic_info where 1=1
+        )
+        select top 1 * from aa
+        where aa.sort<(select aa.sort from aa where vc_pid = #{vcPid} and c_kind = 0 and vc_uid =1)
+        ORDER BY aa.sort desc
+         ]]>
+    </select>
+
+    <select id="selectPicInfoByPid" resultMap="BaseResultMap">
+         select * from pic_info
+        where vc_pid = #{vcPid}
+    </select>
+
+    <delete id="deletePicInfo">
+        delete from pic_info where vc_pid = #{picInfo.vcPid}
+        <if test="picInfo.vcUid !=null">
+        and vc_uid = #{picInfo.vcUid}
+        </if>
+    </delete>
+
+    <select id="selectPicAttribList" resultMap="BaseResultMap">
+        select * from pic_info where vc_pid in( select p.vc_pid from pic_attrib p where vc_name like '%'+#{vcName} +'%') and vc_uid =1 ORDER BY dt_stamp DESC
+    </select>
+</mapper>

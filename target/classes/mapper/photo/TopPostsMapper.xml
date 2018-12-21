@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.photo.TopPostsMapper">
+    <resultMap id="MyResult" type="com.photo.warehouse.model.photo.TopPosts">
+        <result property="vcId" column="vc_id"/>
+        <result property="iM5" column="i_m5"/>
+        <result property="iM3" column="i_m3"/>
+        <result property="iM4" column="i_m4"/>
+        <result property="iM10" column="i_m10"/>
+        <result property="iM2" column="i_m2"/>
+        <result property="iM12" column="i_m12"/>
+        <result property="iM9" column="i_m9"/>
+        <result property="iM6" column="i_m6"/>
+        <result property="iM1" column="i_m1"/>
+        <result property="iM7" column="i_m7"/>
+        <result property="iM8" column="i_m8"/>
+        <result property="iM11" column="i_m11"/>
+        <result property="iM13" column="i_m13"/>
+    </resultMap>
+
+    <select id="GetAllTopPost" resultMap="MyResult">
+        <![CDATA[
+				select a.vc_id,
+					sum(case dt_month when 1 then amount else 0 end) as 'i_m1',
+					sum(case dt_month when 2 then amount else 0 end) as 'i_m2',
+					sum(case dt_month when 3 then amount else 0 end) as 'i_m3',
+					sum(case dt_month when 4 then amount else 0 end) as 'i_m4',
+					sum(case dt_month when 5 then amount else 0 end) as 'i_m5',
+					sum(case dt_month when 6 then amount else 0 end) as 'i_m6',
+					sum(case dt_month when 7 then amount else 0 end) as 'i_m7',
+					sum(case dt_month when 8 then amount else 0 end) as 'i_m8',
+					sum(case dt_month when 9 then amount else 0 end) as 'i_m9',
+					sum(case dt_month when 10 then amount else 0 end) as 'i_m10',
+					sum(case dt_month when 11 then amount else 0 end) as 'i_m11',
+					sum(case dt_month when 12 then amount else 0 end) as 'i_m12',
+					sum(case when dt_month>0 then amount else 0 end) as 'i_m13'
+				from
+				(
+					select vc_dept as 'vc_id', datepart(month, dt_postime) as 'dt_month', count(*) as 'amount'
+					from pic_attrib
+					where c_status=1 and datepart(year, dt_postime)=#{year}
+					group by vc_dept, datepart(month, dt_postime)
+				) a group by a.vc_id order by i_m13 desc
+			]]>
+    </select>
+    <select id="GetAllTopPost2" resultMap="MyResult">
+        <![CDATA[
+				select a.vc_id,
+					sum(case dt_month when 1 then amount else 0 end) as 'i_m1',
+					sum(case dt_month when 2 then amount else 0 end) as 'i_m2',
+					sum(case dt_month when 3 then amount else 0 end) as 'i_m3',
+					sum(case dt_month when 4 then amount else 0 end) as 'i_m4',
+					sum(case dt_month when 5 then amount else 0 end) as 'i_m5',
+					sum(case dt_month when 6 then amount else 0 end) as 'i_m6',
+					sum(case dt_month when 7 then amount else 0 end) as 'i_m7',
+					sum(case dt_month when 8 then amount else 0 end) as 'i_m8',
+					sum(case dt_month when 9 then amount else 0 end) as 'i_m9',
+					sum(case dt_month when 10 then amount else 0 end) as 'i_m10',
+					sum(case dt_month when 11 then amount else 0 end) as 'i_m11',
+					sum(case dt_month when 12 then amount else 0 end) as 'i_m12',
+					sum(case when dt_month>0 then amount else 0 end) as 'i_m13'
+				from
+				(
+					select vc_post as 'vc_id', datepart(month, dt_postime) as 'dt_month', count(*) as 'amount'
+					from pic_attrib
+					where c_status=1 and vc_post<>'' and datepart(year, dt_postime)=#{year}
+					group by vc_post, datepart(month, dt_postime)
+				) a group by a.vc_id order by i_m13 desc
+			]]>
+    </select>
+    <select id="GetTopPostById" resultMap="MyResult">
+        select * from top_posts where vc_id=#{vcId}
+    </select>
+    <insert id="InsertTopPost">
+        insert into top_posts(vc_id,i_m5,i_m3,i_m4,i_m10,i_m2,i_m12,i_m9,i_m6,i_m1,i_m7,i_m8,i_m11)
+        values(#{topPosts.vcId},#{topPosts.iM5},#{topPosts.iM3},#{topPosts.iM4},#{topPosts.iM10},#{topPosts.iM2},#{topPosts.iM12},#{topPosts.iM9},#{topPosts.iM6},#{topPosts.iM1},#{topPosts.iM7},#{topPosts.iM8},#{topPosts.iM11})
+    </insert>
+    <update id="UpdateTopPost">
+        update top_posts set i_m5=#{topPosts.iM5},i_m3=#{topPosts.iM3},i_m4=#{topPosts.iM4},i_m10=#{topPosts.iM10},i_m2=#{topPosts.iM2},i_m12=#{topPosts.iM12},i_m9=#{topPosts.iM9},i_m6=#{topPosts.iM6},i_m1=#{topPosts.iM1},i_m7=#{topPosts.iM7},i_m8=#{topPosts.iM8},i_m11=#{topPosts.iM11}
+        where vc_id=#{topPosts.vcId}
+    </update>
+    <delete id="DeleteTopPost">
+        delete from top_posts where vc_id=#{vcId}
+    </delete>
+
+</mapper>

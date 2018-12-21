@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.photo.warehouse.mapper.photo.ClickResultsetMapper">
+    <resultMap id="BaseResultMap" type="com.photo.warehouse.model.photo.ClickResultset">
+        <result column="vc_pid" property="vcPid"/>
+        <result column="vc_name" property="vcName"/>
+        <result column="vc_author" property="vcAuthor"/>
+        <result column="vc_keyword" property="vcKeyword"/>
+        <result column="vc_photime" property="vcPhotime"/>
+        <result column="i_clicks" property="iClicks"/>
+
+    </resultMap>
+
+    <select id="selectClickResultsetByPid" resultMap="BaseResultMap">
+        select * from click_resultset where vc_pid = #{vcPid}
+    </select>
+
+    <update id="updateClickResult">
+        UPDATE click_resultset SET i_clicks = #{clickResultset.iClicks} WHERE vc_pid = #{clickResultset.vcPid}
+    </update>
+</mapper>
