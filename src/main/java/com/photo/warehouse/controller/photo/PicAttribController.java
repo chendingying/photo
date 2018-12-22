@@ -280,7 +280,6 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         //存Id
         List<String> stringList = new ArrayList<>();
 
-
         //获取时间戳，用来做组Id
         String gid = String.valueOf(System.currentTimeMillis());
         picAttrib.setVcGroupid(gid);
@@ -332,10 +331,6 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
 
         //存储操作的Id
         List<String> stringId = new ArrayList<>();
-        for(PicAttrib picId : picAttrib){
-            stringId.add(picId.getVcPid());
-        }
-        entityObjectRestResponse.setStringList(stringId);
 
         //判断操作
         if(stick != null && stick == 1){
@@ -349,12 +344,14 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         try{
             //循环修改
             for(PicAttrib pic : picAttrib){
+                stringId.add(pic.getVcPid());
                 pic.setPicStickTime(picStickTime);
                 pic.setPicStick(stick);
                 baseBiz.updateStick(pic);
             }
             entityObjectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
             entityObjectRestResponse.setMessage("设置成功");
+            entityObjectRestResponse.setStringList(stringId);
         }catch (Exception e){
             entityObjectRestResponse.setResultCode(ReturnCode.RES_FAILED);
             entityObjectRestResponse.setMessage("设置失败");
@@ -382,13 +379,11 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         String courseFile = directory.getCanonicalPath();
 
         List<String> stringId = new ArrayList<>();
-        for(PicAttrib pid : picAttribs){
-            stringId.add(pid.getVcPid());
-        }
-        entityObjectRestResponse.setStringList(stringId);
+
         entityObjectRestResponse.setActionType("删除组图");
         try{
             for(PicAttrib picAttrib : picAttribs){
+                stringId.add(picAttrib.getVcPid());
                 PicComment picComment = new PicComment();
                 picComment.setVcPid(picAttrib.getVcPid());
                 picCommentBiz.deletePicComment(picComment);
@@ -406,6 +401,7 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
                     file2.delete();
                 }
             }
+            entityObjectRestResponse.setStringList(stringId);
             entityObjectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
             entityObjectRestResponse.setMessage("删除组图成功");
         }catch (Exception e){
@@ -430,13 +426,14 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         ObjectRestResponse<PicAttrib> entityObjectRestResponse = new ObjectRestResponse<>();
 
         List<String> stringId = new ArrayList<>();
-        for(PicAttrib pId : picAttribs){
-            stringId.add(pId.getVcPid());
-        }
-        entityObjectRestResponse.setStringList(stringId);
+
         entityObjectRestResponse.setActionType("删除图片");
         try{
+            File directory = new File("");// 参数为空
+            //工程的根目录
+            String courseFile = directory.getCanonicalPath();
             for(PicAttrib picAttrib : picAttribs){
+                stringId.add(picAttrib.getVcPid());
                 baseBiz.deleteById(picAttrib);
                 //如果是组图的话
                 if(picAttrib.getcGroup().equals("1")){
@@ -448,7 +445,12 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
                     }
                     entityObjectRestResponse.data((PicAttrib)picAttrib);
                 }
+                File file = new File(courseFile + "\\" + hddUpath + "\\" + picAttrib.getVcUpload());
+                File file2 = new File(courseFile + "\\" + hddTpath + "\\" + picAttrib.getVcThumb());
+                file.delete();
+                file2.delete();
             }
+            entityObjectRestResponse.setStringList(stringId);
             entityObjectRestResponse.setMessage("删除单个图片成功");
             entityObjectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
         }catch (Exception e){
@@ -475,10 +477,6 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
 
         //存Id
         List<String> stringId = new ArrayList<>();
-        for(PicAttrib pId : picAttribList){
-            stringId.add(pId.getVcPid());
-        }
-        entityObjectRestResponse.setStringList(stringId);
 
         if(status.equals("1")){
             entityObjectRestResponse.setActionType("已采用");
@@ -489,11 +487,13 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
         try{
             //循环审批
             for(PicAttrib picAttrib : picAttribList){
+                stringId.add(picAttrib.getVcPid());
                 picAttrib =  baseBiz.selectById(picAttrib);
                 picAttrib.setcStatus(status);
                 picAttrib.setVcReason(reason);
                 baseBiz.updateSelectiveById(picAttrib);
             }
+            entityObjectRestResponse.setStringList(stringId);
             entityObjectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
             entityObjectRestResponse.setMessage("审核操作成功");
         }catch (Exception e){

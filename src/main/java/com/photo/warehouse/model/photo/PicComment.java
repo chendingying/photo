@@ -1,6 +1,7 @@
 package com.photo.warehouse.model.photo;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Date;
@@ -11,6 +12,11 @@ import java.util.Date;
  */
 @Table(name = "pic_comment")
 public class PicComment {
+
+    @Id
+    @Column(name = "id")
+    private String id;
+
     //图片id
     @Column(name = "vc_pid")
     private String vcPid;
@@ -150,5 +156,13 @@ public class PicComment {
 
     public void setVcUName(String vcUName) {
         this.vcUName = vcUName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

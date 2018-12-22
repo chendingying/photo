@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class Upload {
      * @return
      * @throws IOException
      */
-    public  String uploadFile(MultipartFile multipartFile,PicAttrib picAttrib,int main) throws IOException {
+    public String uploadFile(MultipartFile multipartFile,PicAttrib picAttrib,int main) throws IOException {
 
         //以时间戳作为pid
         Random rnd = new Random();

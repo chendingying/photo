@@ -1,5 +1,6 @@
 package com.photo.warehouse.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,6 +73,7 @@ public class ObjectRestResponse<T> extends BaseResponse {
         this.setData(data);
         return this;
     }
+
     public T getData() {
         return data;
     }
@@ -79,6 +81,5 @@ public class ObjectRestResponse<T> extends BaseResponse {
     public void setData(T data) {
         this.data = data;
     }
-
 
 }
