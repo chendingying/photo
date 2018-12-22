@@ -1,16 +1,17 @@
 package com.photo.warehouse.controller.photo;
 
 import com.photo.warehouse.biz.photo.PicInfoBiz;
+import com.photo.warehouse.log.ReturnCode;
+import com.photo.warehouse.log.SystemControllerLog;
 import com.photo.warehouse.model.photo.PicAttrib;
 import com.photo.warehouse.model.photo.PicInfo;
 import com.photo.warehouse.model.photo.response.PicInfoResponse;
-import com.photo.warehouse.util.BaseController;
-import com.photo.warehouse.util.ObjectRestResponse;
-import com.photo.warehouse.util.Query;
-import com.photo.warehouse.util.TableResultResponse;
+import com.photo.warehouse.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +23,35 @@ import java.util.Map;
 @RequestMapping("/api/photo/picInfo")
 public class PicInfoController {
 
-    /**
-     * 取消收藏
-     */
+
     @Autowired
     PicInfoBiz baseBiz;
+
+    /**
+     * 删除收藏
+     */
+    @Transactional
+    @SystemControllerLog(descrption = "收藏夹")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<PicInfo> update(@RequestBody PicInfo entity){
-        baseBiz.delete(entity);
-        return new ObjectRestResponse<PicInfo>();
+        ObjectRestResponse objectRestResponse = new ObjectRestResponse();
+        objectRestResponse.setActionType("删除图片收藏");
+
+        try{
+            List<String> strings = new ArrayList<>();
+            strings.add(entity.getVcPid());
+            baseBiz.delete(entity);
+            objectRestResponse.setStringList(strings);
+            objectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
+            objectRestResponse.setMessage("删除成功");
+        }catch (Exception e){
+            objectRestResponse.setException(ExceptionUtil.getStackTrace(e));
+            objectRestResponse.setResultCode(ReturnCode.RES_FAILED);
+            objectRestResponse.setMessage("删除失败");
+        }
+
+        return objectRestResponse;
     }
 
     /**
@@ -39,12 +59,29 @@ public class PicInfoController {
      * @param entity
      * @return
      */
+    @Transactional
+    @SystemControllerLog(descrption = "收藏夹")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<PicInfo> add(@RequestBody PicInfo entity){
-        entity.setDtStamp(new Date());
-        baseBiz.insertSelective(entity);
-        return new ObjectRestResponse<PicInfo>();
+        ObjectRestResponse objectRestResponse = new ObjectRestResponse();
+        objectRestResponse.setActionType("新增图片收藏");
+        try{
+            List<String> stringId = new ArrayList<>();
+            stringId.add(entity.getVcPid());
+            entity.setDtStamp(new Date());
+            baseBiz.insertSelective(entity);
+
+            objectRestResponse.setStringList(stringId);
+            objectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
+            objectRestResponse.setMessage("新增成功");
+        }catch (Exception e){
+            objectRestResponse.setResultCode(ReturnCode.RES_FAILED);
+            objectRestResponse.setException(ExceptionUtil.getStackTrace(e));
+            objectRestResponse.setMessage("新增失败");
+        }
+
+        return objectRestResponse;
     }
 
     /**

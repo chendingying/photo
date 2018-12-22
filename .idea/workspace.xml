@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" description="    @RequestMapping(value = &quot;/downCluster/{vcPid}&quot;..." line="215" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" description="    @RequestMapping(value = &quot;/downCluster/{vcPid}&quot;..." line="243" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e540abe9-c029-4a8a-ab96-c76d5334c7c7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicCommentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicCommentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/PicComment.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/PicComment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ObjectRestResponse.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ObjectRestResponse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/vo/Upload.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/vo/Upload.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicInfoController.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicInfoController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/DownloadForm.java" afterPath="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/DownloadForm.java" />
     </list>
     <ignored path="photo-warehouse.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,33 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PicAttribController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java">
+      <file leaf-file-name="DownloadFormController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5324">
-              <caret line="280" column="52" selection-start-line="280" selection-start-column="52" selection-end-line="280" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PicCommentController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicCommentController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1351">
-              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SystemLogAspect.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+            <state relative-caret-position="325">
+              <caret line="99" column="73" selection-start-line="99" selection-start-column="73" selection-end-line="99" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -93,7 +72,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ZipUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicInfoController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/mapper/photo/PicCommentMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/mapper/photo/DownloadFormMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/biz/photo/DownloadFormBiz.java" />
@@ -106,7 +84,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/mapper/photo/PicAttribMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/mapper/photo/PicAttribMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application-prod.yml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/DownloadForm.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/mapper/photo/PicInfoMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/photo/PicInfoMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/biz/photo/PicInfoBiz.java" />
@@ -123,13 +100,10 @@
         <option value="$PROJECT_DIR$/src/main/resources/logback.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/HLogSdkExample.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/BaseController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/conf/SysLogAspect.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemControllerLog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/ReturnCode.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ExceptionUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/biz/photo/PicAttribBiz.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/constants/CommonConstants.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/biz/photo/PicCommentBiz.java" />
@@ -141,8 +115,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/vo/Upload.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/PicComment.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ObjectRestResponse.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicCommentController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicInfoController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/DownloadForm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java" />
       </list>
     </option>
   </component>
@@ -1096,7 +1075,7 @@
       <workItem from="1545275343857" duration="1081000" />
       <workItem from="1545287894034" duration="7317000" />
       <workItem from="1545374981881" duration="7864000" />
-      <workItem from="1545442460293" duration="9251000" />
+      <workItem from="1545442460293" duration="12612000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1545381060071</created>
@@ -1126,11 +1105,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545449135529</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="init">
+      <created>1545460857444</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1545460857444</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="257861000" />
+    <option name="totallyTimeSpent" value="261222000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1229,7 +1215,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java</url>
-          <line>447</line>
+          <line>475</line>
           <properties />
           <option name="timeStamp" value="91" />
         </line-breakpoint>
@@ -1237,7 +1223,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="94" />
+      <option name="time" value="95" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1246,35 +1232,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/EntityUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/BaseContextHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/ZipUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/VersionUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/util/StringHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -1438,26 +1395,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3425">
-          <caret line="164" column="7" selection-start-line="164" selection-start-column="7" selection-end-line="164" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/CopyTasksController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1598,18 +1535,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/TopPosts.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state relative-caret-position="192">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/TopPostsController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5324">
-          <caret line="280" column="52" selection-start-line="280" selection-start-column="52" selection-end-line="280" selection-end-column="52" />
+        <state relative-caret-position="367">
+          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-375">
+          <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1618,8 +1563,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicCommentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1351">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+        <state relative-caret-position="200">
+          <caret line="66" column="26" selection-start-line="63" selection-start-column="5" selection-end-line="66" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/base/PicAttribBaseController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/PicAttribController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="83" column="53" selection-start-line="83" selection-start-column="53" selection-end-line="83" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/model/photo/DownloadForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1142">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
+          <folding>
+            <element signature="e#1450#1451#0" expanded="true" />
+            <element signature="e#1486#1487#0" expanded="true" />
+            <element signature="e#1514#1515#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/log/SystemLogAspect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/photo/warehouse/controller/photo/DownloadFormController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="99" column="73" selection-start-line="99" selection-start-column="73" selection-end-line="99" selection-end-column="73" />
           <folding />
         </state>
       </provider>

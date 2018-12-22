@@ -3,6 +3,7 @@ package com.photo.warehouse.model.photo;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Date;
@@ -14,6 +15,9 @@ import java.util.Date;
 @Table(name = "download_form")
 public class DownloadForm {
 
+    @Id
+    @Column(name = "id")
+    private String id;
     //图片id
     @Column(name = "vc_pid")
     private String vcPid;
@@ -64,6 +68,14 @@ public class DownloadForm {
 
     @Column(name = "vc_groupid")
     private String vcGroupid;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getVcGroupid() {
         return vcGroupid;

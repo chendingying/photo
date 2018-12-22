@@ -32,12 +32,7 @@ public class PicAttribBaseController<Biz extends BaseBiz,Entity> {
         return entityObjectRestResponse;
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    @ResponseBody
-    public ObjectRestResponse<Entity> update(@RequestBody Entity entity){
-        baseBiz.updateSelectiveById(entity);
-        return new ObjectRestResponse<Entity>();
-    }
+
 
 
     @RequestMapping(value = "/all",method = RequestMethod.GET)

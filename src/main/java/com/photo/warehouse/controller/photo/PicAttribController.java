@@ -66,6 +66,34 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
 
 
     /**
+     * 重新申请
+     * @param entity
+     * @return
+     */
+    @Transactional
+    @SystemControllerLog(descrption = "图片管理")
+    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @ResponseBody
+    public ObjectRestResponse<PicAttrib> update(@RequestBody PicAttrib entity){
+        ObjectRestResponse objectRestResponse = new ObjectRestResponse();
+        objectRestResponse.setActionType("重新申请");
+        try{
+            List<String> stringId = new ArrayList<>();
+            stringId.add(entity.getVcPid());
+            baseBiz.updateSelectiveById(entity);
+            objectRestResponse.setStringList(stringId);
+            objectRestResponse.setMessage("重新申请成功");
+            objectRestResponse.setResultCode(ReturnCode.RES_SUCCESS);
+        }catch (Exception e){
+            objectRestResponse.setMessage("重新申请失败");
+            objectRestResponse.setResultCode(ReturnCode.RES_FAILED);
+            objectRestResponse.setException(ExceptionUtil.getStackTrace(e));
+        }
+
+        return objectRestResponse;
+    }
+
+    /**
      * 图片明细(点击率暂时注释掉)
      * @param params
      * @return

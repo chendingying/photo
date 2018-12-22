@@ -85,7 +85,7 @@ public class SystemLogAspect {
 //            System.out.println("operatemodel："+getControllerMethodDescription(joinPoint));
 //            System.out.println("operateact："+restResponse.getActionType());
         }else{
-            baseLog.setLogcat("info");
+            baseLog.setLogcat("error");
             baseLog.setMessage(restResponse.getMessage());
             baseLog.setException(restResponse.getException());
             baseLog.setUserid("userId");
