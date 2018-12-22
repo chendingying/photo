@@ -468,7 +468,7 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
      */
     @RequestMapping(value = "/updateStatusList/{status}",method = RequestMethod.PUT)
     @Transactional
-    @SystemControllerLog(descrption = "审核管理->审核图片")
+    @SystemControllerLog(descrption = "审核图片")
     public ObjectRestResponse updatePicAttribStatusList(@PathVariable("status") String status,@Param("reason") String reason,@RequestBody List<PicAttrib> picAttribList){
 
         ObjectRestResponse<PicAttrib> entityObjectRestResponse = new ObjectRestResponse<>();
@@ -482,7 +482,7 @@ public class PicAttribController extends PicAttribBaseController<PicAttribBiz,Pi
 
         if(status.equals("1")){
             entityObjectRestResponse.setActionType("已采用");
-        }else if(status.equals("0")){
+        }else if(status.equals("2")){
             entityObjectRestResponse.setActionType("已拒绝");
         }
 
