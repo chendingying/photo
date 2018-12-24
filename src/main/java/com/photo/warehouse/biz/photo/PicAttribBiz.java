@@ -141,6 +141,9 @@ public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
         criteria.andLike("cMain",CommonConstants.CMAIN);
         if(query.entrySet().size()>0) {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
+                if(entry.getKey().equals("span")){
+                    continue;
+                }
                 criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
             }
         }
@@ -171,6 +174,9 @@ public class PicAttribBiz extends BaseBiz<PicAttribMapper,PicAttrib> {
             Date vcPhotimeEnd = null;
             for (Map.Entry<String, Object> entry : query.entrySet()) {
                 if(entry.getValue().equals("")){
+                    continue;
+                }
+                if(entry.getKey().equals("span")){
                     continue;
                 }
                 if(entry.getKey().equals("dtPostimeBegin")){

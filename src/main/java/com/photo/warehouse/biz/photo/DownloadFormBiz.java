@@ -36,7 +36,14 @@ public class DownloadFormBiz extends BaseBiz<DownloadFormMapper,DownloadForm> {
         if(query.entrySet().size()>0) {
             Example.Criteria criteria = example.createCriteria();
             for (Map.Entry<String, Object> entry : query.entrySet()) {
+                if(entry.getKey().equals("span")){
+                    continue;
+                }
                 criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
+            }
+            List criteriaSize = criteria.getAllCriteria();
+            if(criteriaSize.size() == 0){
+                example.clear();
             }
         }
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());

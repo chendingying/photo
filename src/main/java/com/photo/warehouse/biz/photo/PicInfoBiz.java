@@ -35,6 +35,9 @@ public class PicInfoBiz extends BaseBiz<PicInfoMapper,PicInfo> {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         if(query.entrySet().size()>0) {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
+                if(entry.getKey().equals("span")){
+                    continue;
+                }
                 if(entry.getKey().equals("vcName")){
                     List<PicInfo> list =   mapper.selectPicAttribList(entry.getValue().toString());
                     for(PicInfo picInfo : list){

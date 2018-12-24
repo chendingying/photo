@@ -99,6 +99,10 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
                 }
                 criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
             }
+            List criteriaSize = criteria.getAllCriteria();
+            if(criteriaSize.size() == 0){
+                example.clear();
+            }
         }
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         List<T> list = mapper.selectByExample(example);
